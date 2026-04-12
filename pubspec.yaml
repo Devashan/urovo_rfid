@@ -1,7 +1,15 @@
 name: urovo_rfid
-description: "A new Flutter plugin project."
+description: "Flutter plugin for integrating Urovo Android RFID handheld readers via the Urovo USDK."
 version: 0.0.1
-homepage:
+homepage: https://github.com/urovo/urovo_rfid
+repository: https://github.com/urovo/urovo_rfid
+issue_tracker: https://github.com/urovo/urovo_rfid/issues
+topics:
+  - rfid
+  - urovo
+  - android
+  - hardware
+  - plugin
 
 environment:
   sdk: ^3.8.1
@@ -35,7 +43,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.example.urovo_rfid
+        package: com.urovo.plugins.rfid
         pluginClass: UrovoRfidPlugin
 
   # To add assets to your plugin package, add an assets section, like this:

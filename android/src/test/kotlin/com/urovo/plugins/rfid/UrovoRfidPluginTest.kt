@@ -1,4 +1,4 @@
-package com.example.urovo_rfid
+package com.urovo.plugins.rfid
 
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
