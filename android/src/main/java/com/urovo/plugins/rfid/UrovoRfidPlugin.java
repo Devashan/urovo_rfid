@@ -1,4 +1,4 @@
-package com.example.urovo_rfid;
+package com.urovo.plugins.rfid;
 
 import android.app.Activity;
 import android.os.Handler;
