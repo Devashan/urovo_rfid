@@ -57,7 +57,6 @@ android {
         implementation files('libs/URFIDLibrary-v2.4.0125.aar')
 //        implementation(name: 'URFIDLibrary-v2.4.0125', ext: 'aar')
 
-        implementation 'com.google.code.gson:gson:2.10.1'
     }
 
     testOptions {

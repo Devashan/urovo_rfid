@@ -135,7 +135,11 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> _setInventoryParameter() async {
     try {
-      await _urovoRfidPlugin.setInventoryParameter({'dummy': true});
+      await _urovoRfidPlugin.setInventoryParameter({
+        'Session': 0,
+        'Interval': 0,
+        'QValue': 6,
+      });
       _log('setInventoryParameter');
     } catch (e) {
       _log('setInventoryParameter error: $e');

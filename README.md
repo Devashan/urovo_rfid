@@ -147,6 +147,26 @@ Future<void> writeExample(UrovoRfid rfid, String epc) async {
 }
 ```
 
+### 5) Configure inventory parameters
+
+`setInventoryParameter` expects a Dart `Map<String, dynamic>` where keys map directly to Urovo `RfidParameter` fields.
+
+Currently supported keys:
+
+- `Session` (`int`)
+- `Interval` (`int`)
+- `QValue` (`int`)
+
+```dart
+Future<void> configureInventory(UrovoRfid rfid) async {
+  await rfid.setInventoryParameter({
+    'Session': 0,
+    'Interval': 0,
+    'QValue': 6,
+  });
+}
+```
+
 ## Error handling semantics
 
 This plugin exposes two error surfaces:
