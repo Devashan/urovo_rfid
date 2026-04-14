@@ -7,7 +7,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.google.gson.Gson;
 import com.ubx.usdk.USDKManager;
 import com.ubx.usdk.bean.RfidParameter;
 import com.ubx.usdk.rfid.RfidManager;
@@ -16,6 +15,7 @@ import com.ubx.usdk.rfid.aidl.IRfidCallback;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
@@ -289,15 +289,54 @@ public class UrovoRfidPlugin implements FlutterPlugin, ActivityAware, MethodCall
     }
 
     private void setInventoryParameter(MethodCall call) {
-        // Parameters are passed as a JSON string in the call argument "params".
-        String paramsJson = call.argument("params");
-        if (paramsJson == null) {
+        Object arguments = call.arguments;
+        if (!(arguments instanceof Map)) {
             return;
         }
-        RfidParameter rfidParameter = new Gson().fromJson(paramsJson, RfidParameter.class);
-        if (rfidParameter != null) {
-            rfidManager.setInventoryParameter(rfidParameter);
+
+        Map<?, ?> argumentMap = (Map<?, ?>) arguments;
+        Map<?, ?> params = argumentMap;
+
+        Object nestedParams = argumentMap.get("params");
+        if (nestedParams instanceof Map) {
+            params = (Map<?, ?>) nestedParams;
         }
+
+        RfidParameter rfidParameter = rfidManager.getInventoryParameter();
+        if (rfidParameter == null) {
+            rfidParameter = new RfidParameter();
+        }
+
+        Integer session = getInteger(params.get("Session"));
+        if (session != null) {
+            rfidParameter.Session = session;
+        }
+
+        Integer interval = getInteger(params.get("Interval"));
+        if (interval != null) {
+            rfidParameter.Interval = interval;
+        }
+
+        Integer qValue = getInteger(params.get("QValue"));
+        if (qValue != null) {
+            rfidParameter.QValue = qValue;
+        }
+
+        rfidManager.setInventoryParameter(rfidParameter);
+    }
+
+    private Integer getInteger(Object value) {
+        if (value instanceof Number) {
+            return ((Number) value).intValue();
+        }
+        if (value instanceof String) {
+            try {
+                return Integer.parseInt((String) value);
+            } catch (NumberFormatException ignored) {
+                return null;
+            }
+        }
+        return null;
     }
 
     private void enableScanHead(MethodCall call, Result result) {
