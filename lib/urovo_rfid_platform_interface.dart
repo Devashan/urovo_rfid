@@ -39,8 +39,14 @@ abstract class UrovoRfidPlatform extends PlatformInterface {
   /// Stop any ongoing inventory scans.
   Future<void> stopInventory();
 
-  /// Read tag data from the specified memory [memBank].  The password is
-  /// supplied as a 4-byte array in [password].
+  /// Read tag data from the specified memory [memBank].
+  ///
+  /// Returns a structured map with these keys:
+  /// - `data`: tag payload when the read succeeds, otherwise `null`
+  /// - `status`: `"success"` or `"error"`
+  /// - `errorCode`: SDK/native error code where `0` represents success
+  ///
+  /// The password is supplied as a 4-byte array in [password].
   Future<Map<String, dynamic>?> readTag(
     String epc,
     int memBank,
