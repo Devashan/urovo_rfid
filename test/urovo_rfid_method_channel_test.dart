@@ -12,6 +12,13 @@ void main() {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
       channel,
       (MethodCall methodCall) async {
+        if (methodCall.method == 'readTag') {
+          return <String, dynamic>{
+            'data': 'ABCD1234',
+            'status': 'success',
+            'errorCode': 0,
+          };
+        }
         return '42';
       },
     );
@@ -23,5 +30,16 @@ void main() {
 
   test('getPlatformVersion', () async {
     expect(await platform.getPlatformVersion(), '42');
+  });
+
+  test('readTag returns structured response map', () async {
+    expect(
+      await platform.readTag('300833B2DDD9014000000000', 1, 2, 6, <int>[0, 0, 0, 0]),
+      <String, dynamic>{
+        'data': 'ABCD1234',
+        'status': 'success',
+        'errorCode': 0,
+      },
+    );
   });
 }

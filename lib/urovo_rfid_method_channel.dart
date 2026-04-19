@@ -51,7 +51,7 @@ class MethodChannelUrovoRfid extends UrovoRfidPlatform {
         'password': password,
       },
     );
-    return result;
+    return result == null ? null : Map<String, dynamic>.from(result);
   }
 
   @override

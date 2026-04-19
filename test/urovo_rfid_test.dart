@@ -26,7 +26,11 @@ class MockUrovoRfidPlatform
   @override
   Future<Map<String, dynamic>?> readTag(
           String epc, int memBank, int wordAdd, int wordCnt, List<int> password) async =>
-      {};
+      <String, dynamic>{
+        'data': 'ABCD1234',
+        'status': 'success',
+        'errorCode': 0,
+      };
 
   @override
   Future<int?> writeTag(String epc, List<int> password, int memBank,
@@ -62,5 +66,26 @@ void main() {
     UrovoRfidPlatform.instance = fakePlatform;
 
     expect(await urovoRfidPlugin.getPlatformVersion(), '42');
+  });
+
+  test('readTag returns normalized map contract', () async {
+    UrovoRfid urovoRfidPlugin = UrovoRfid();
+    MockUrovoRfidPlatform fakePlatform = MockUrovoRfidPlatform();
+    UrovoRfidPlatform.instance = fakePlatform;
+
+    expect(
+      await urovoRfidPlugin.readTag(
+        '300833B2DDD9014000000000',
+        1,
+        2,
+        6,
+        <int>[0, 0, 0, 0],
+      ),
+      <String, dynamic>{
+        'data': 'ABCD1234',
+        'status': 'success',
+        'errorCode': 0,
+      },
+    );
   });
 }

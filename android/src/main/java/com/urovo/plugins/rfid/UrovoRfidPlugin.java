@@ -241,12 +241,16 @@ public class UrovoRfidPlugin implements FlutterPlugin, ActivityAware, MethodCall
         Integer wordCnt = call.argument("wordCnt");
         byte[] password = call.argument("password");
         if (memBank == null || wordAdd == null || wordCnt == null) {
-            result.success(ERR_CODE);
+            result.success(getReadTagResultMap(null, ERR_CODE));
             return;
         }
         String ret = rfidManager.readTag(epc, memBank.byteValue(),
                 wordAdd.byteValue(), wordCnt.byteValue(), password);
-        result.success(ret);
+        if (ret == null || ret.isEmpty()) {
+            result.success(getReadTagResultMap(null, ERR_CODE));
+            return;
+        }
+        result.success(getReadTagResultMap(ret, 0));
     }
 
     private void writeTag(MethodCall call, Result result) {
@@ -362,6 +366,18 @@ public class UrovoRfidPlugin implements FlutterPlugin, ActivityAware, MethodCall
                 eventSink.success(map);
             }
         });
+    }
+
+    /**
+     * Build a normalized readTag response consumed by Dart:
+     * {data: String?, status: "success"|"error", errorCode: int}
+     */
+    private Map<String, Object> getReadTagResultMap(String data, int errorCode) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", data);
+        response.put("status", errorCode == 0 ? "success" : "error");
+        response.put("errorCode", errorCode);
+        return response;
     }
 
     @Override
