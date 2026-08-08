@@ -1,9 +1,9 @@
 name: urovo_rfid
 description: "Flutter plugin for integrating Urovo Android RFID handheld readers via the Urovo USDK."
 version: 0.0.1
-homepage: https://github.com/urovo/urovo_rfid
-repository: https://github.com/urovo/urovo_rfid
-issue_tracker: https://github.com/urovo/urovo_rfid/issues
+homepage: https://github.com/Devashan/urovo_rfid
+repository: https://github.com/Devashan/urovo_rfid
+issue_tracker: https://github.com/Devashan/urovo_rfid/issues
 topics:
   - rfid
   - urovo
